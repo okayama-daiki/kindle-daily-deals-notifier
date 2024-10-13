@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/line/line-bot-sdk-go/v8/linebot/messaging_api"
 	"github.com/okayama-daiki/kindle-daily-deals-notifier/libs/crawler"
@@ -23,7 +25,7 @@ func (h *Handler) HandleRequest(req events.LambdaFunctionURLRequest) (events.API
 	products, err := crawler.Crawl()
 	if err != nil {
 		return events.APIGatewayProxyResponse{
-			StatusCode: 500,
+			StatusCode: http.StatusInternalServerError,
 		}, err
 	}
 
@@ -38,11 +40,11 @@ func (h *Handler) HandleRequest(req events.LambdaFunctionURLRequest) (events.API
 	notifier := notifier.New(h.bot)
 	if err := notifier.Notify(h.targetId, messages); err != nil {
 		return events.APIGatewayProxyResponse{
-			StatusCode: 500,
+			StatusCode: http.StatusInternalServerError,
 		}, err
 	}
 
 	return events.APIGatewayProxyResponse{
-		StatusCode: 200,
+		StatusCode: http.StatusOK,
 	}, nil
 }
