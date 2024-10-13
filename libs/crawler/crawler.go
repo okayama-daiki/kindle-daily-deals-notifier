@@ -21,11 +21,13 @@ func Crawl() ([]product.Product, error) {
 
 	c.OnHTML("div#browse-views-area ul > div#sponsoredLabel-title > a", func(e *colly.HTMLElement) {
 		productName := e.Attr("aria-label")
+		if productName == "" {
+			return
+		}
 
 		rawProductPath := e.Attr("href")
 		productPath, err := url.Parse(rawProductPath)
-
-		if productName == "" || err != nil {
+		if err != nil {
 			return
 		}
 
