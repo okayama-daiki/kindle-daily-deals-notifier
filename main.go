@@ -15,7 +15,7 @@ var (
 )
 
 func lambdaHandler(req events.LambdaFunctionURLRequest) (events.APIGatewayProxyResponse, error) {
-	productList, err := crawler.Crawl()
+	products, err := crawler.Crawl()
 	if err != nil {
 		return events.APIGatewayProxyResponse{
 			StatusCode: 500,
@@ -23,7 +23,7 @@ func lambdaHandler(req events.LambdaFunctionURLRequest) (events.APIGatewayProxyR
 	}
 
 	var messages []messaging_api.MessageInterface
-	for _, product := range productList {
+	for _, product := range products {
 		message := messaging_api.TextMessage{
 			Text: product.String(),
 		}

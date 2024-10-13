@@ -17,7 +17,7 @@ func Crawl() ([]product.Product, error) {
 		colly.MaxDepth(1),
 	)
 
-	productList := []product.Product{}
+	products := []product.Product{}
 
 	c.OnHTML("div#browse-views-area ul > div#sponsoredLabel-title > a", func(e *colly.HTMLElement) {
 		productName := e.Attr("aria-label")
@@ -36,7 +36,7 @@ func Crawl() ([]product.Product, error) {
 		}
 
 		product := product.New(productName, productUrl)
-		productList = append(productList, product)
+		products = append(products, product)
 	})
 
 	err := c.Visit(targetURL)
@@ -44,5 +44,5 @@ func Crawl() ([]product.Product, error) {
 		return nil, err
 	}
 
-	return productList, nil
+	return products, nil
 }
