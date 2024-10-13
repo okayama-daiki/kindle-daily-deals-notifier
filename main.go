@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -11,8 +12,20 @@ import (
 )
 
 var (
-	targetId = os.Getenv("LINE_TARGET_ID")
+	channelAccessToken = os.Getenv("LINE_CHANNEL_ACCESS_TOKEN")
+	targetId           = os.Getenv("LINE_TARGET_ID")
+	bot                *messaging_api.MessagingApiAPI
 )
+
+func init() {
+	var err error
+	bot, err = messaging_api.NewMessagingApiAPI(
+		channelAccessToken,
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func lambdaHandler(req events.LambdaFunctionURLRequest) (events.APIGatewayProxyResponse, error) {
 	products, err := crawler.Crawl()
@@ -30,6 +43,7 @@ func lambdaHandler(req events.LambdaFunctionURLRequest) (events.APIGatewayProxyR
 		messages = append(messages, message)
 	}
 
+	notifier := notifier.New(bot)
 	notifier.Notify(targetId, messages)
 
 	return events.APIGatewayProxyResponse{
