@@ -7,10 +7,11 @@ import (
 	"github.com/okayama-daiki/kindle-daily-deals-notifier/libs/product"
 )
 
+const (
+	targetURL = "https://www.amazon.co.jp/kindle-dbs/browse?widgetId=ebooks-deals-storefront_KindleDailyDealsStrategy&sourceType=recs"
+)
+
 func Crawl() ([]product.Product, error) {
-	const (
-		TARGET_URL = "https://www.amazon.co.jp/kindle-dbs/browse?widgetId=ebooks-deals-storefront_KindleDailyDealsStrategy&sourceType=recs"
-	)
 
 	c := colly.NewCollector(
 		colly.MaxDepth(1),
@@ -38,7 +39,7 @@ func Crawl() ([]product.Product, error) {
 		productList = append(productList, product)
 	})
 
-	err := c.Visit(TARGET_URL)
+	err := c.Visit(targetURL)
 	if err != nil {
 		return nil, err
 	}

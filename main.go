@@ -22,7 +22,7 @@ func lambdaHandler(req events.LambdaFunctionURLRequest) (events.APIGatewayProxyR
 		}, err
 	}
 
-	messages := []messaging_api.MessageInterface{}
+	var messages []messaging_api.MessageInterface
 	for _, product := range productList {
 		message := messaging_api.TextMessage{
 			Text: product.String(),
