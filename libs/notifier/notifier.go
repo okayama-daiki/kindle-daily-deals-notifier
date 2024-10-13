@@ -17,7 +17,7 @@ func New(bot *messaging_api.MessagingApiAPI) *Notifier {
 	}
 }
 
-func (n *Notifier) Notify(targetId string, messages []messaging_api.MessageInterface) {
+func (n *Notifier) Notify(targetId string, messages []messaging_api.MessageInterface) error {
 	retryKey := uuid.NewString()
 
 	response, err := n.bot.PushMessage(
@@ -29,9 +29,11 @@ func (n *Notifier) Notify(targetId string, messages []messaging_api.MessageInter
 	)
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	log.Println("Pushed message to", targetId)
 	log.Println("Pushed response:", response)
+
+	return nil
 }
