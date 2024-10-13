@@ -41,8 +41,7 @@ func Crawl() ([]product.Product, error) {
 		products = append(products, product)
 	})
 
-	err := c.Visit(targetURL)
-	if err != nil {
+	if err := c.Visit(targetURL); err != nil {
 		return nil, err
 	}
 
