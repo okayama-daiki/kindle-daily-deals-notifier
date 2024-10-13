@@ -34,7 +34,7 @@ func Crawl() ([]product.Product, error) {
 			Path:   productPath.Path,
 		}
 
-		product := product.NewProduct(productName, productUrl)
+		product := product.New(productName, productUrl)
 		productList = append(productList, product)
 	})
 
