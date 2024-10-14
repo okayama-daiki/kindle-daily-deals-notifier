@@ -1,7 +1,10 @@
 package main
 
 import (
-	"log"
+	"os"
+
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/caarlos0/env/v11"
@@ -15,15 +18,19 @@ type config struct {
 }
 
 func main() {
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+
 	var cfg config
 
 	if err := env.Parse(&cfg); err != nil {
-		log.Fatal(err)
+		log.Error().Err(err)
+		os.Exit(1)
 	}
 
 	bot, err := messaging_api.NewMessagingApiAPI(cfg.ChannelAccessToken)
 	if err != nil {
-		log.Fatal(err)
+		log.Error().Err(err)
+		os.Exit(1)
 	}
 
 	handler := handler.New(bot, cfg.TargetId)
