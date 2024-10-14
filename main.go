@@ -15,19 +15,13 @@ type config struct {
 }
 
 func main() {
-	var (
-		cfg config
-		bot *messaging_api.MessagingApiAPI
-	)
+	var cfg config
 
 	if err := env.Parse(&cfg); err != nil {
 		log.Fatal(err)
 	}
 
-	var err error
-	bot, err = messaging_api.NewMessagingApiAPI(
-		cfg.ChannelAccessToken,
-	)
+	bot, err := messaging_api.NewMessagingApiAPI(cfg.ChannelAccessToken)
 	if err != nil {
 		log.Fatal(err)
 	}
