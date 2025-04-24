@@ -3,7 +3,7 @@ module github.com/okayama-daiki/kindle-daily-deals-notifier
 go 1.23.0
 
 require (
-	github.com/aws/aws-lambda-go v1.47.0
+	github.com/aws/aws-lambda-go v1.48.0
 	github.com/caarlos0/env/v11 v11.3.1
 	github.com/gocolly/colly/v2 v2.1.0
 	github.com/google/uuid v1.6.0
