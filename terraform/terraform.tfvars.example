@@ -1,0 +1,49 @@
+# Example terraform.tfvars for kindle-daily-deals-notifier
+# Copy this file to terraform.tfvars and populate the values.
+# IMPORTANT: Do NOT commit real secrets into version control. Use a secrets manager
+# or CI/CD secret variables for sensitive values in production.
+
+# Basic settings (matches variables.tf)
+aws_region = "ap-northeast-1"
+
+# Lambda service settings (see terraform/variables.tf)
+# Lambda function name
+function_name = "notifyKindleDailyDeals"
+
+# LINE credentials (placeholders)
+# These are sensitive. Prefer injecting real values via CI secrets or a secret manager.
+line_channel_access_token = "YOUR_LINE_CHANNEL_ACCESS_TOKEN"
+line_target_id            = "YOUR_LINE_TARGET_ID"
+
+# Lambda runtime / handler / architectures (optional overrides)
+# Uncomment and change if you need to override defaults from variables.tf
+# handler = "bootstrap"
+# runtime = "provided.al2023"
+# architectures = ["arm64"] # examples: ["arm64"] or ["x86_64"]
+
+# Tags (optional)
+# tags = {
+#   Environment = "dev"
+#   Owner       = "your-name"
+#   Project     = "kindle-daily-deals-notifier"
+# }
+
+# EventBridge Scheduler (optional)
+# Creates a schedule that invokes the Lambda daily at 07:00 JST by default.
+# create_scheduler = true
+# scheduler_name = "notify-kindle-daily-deals-daily-7am-jst"
+# scheduler_schedule_expression = "cron(0 7 * * ? *)"
+# scheduler_schedule_timezone = "Asia/Tokyo"
+
+# Guidance / notes:
+# - For production, do NOT put real tokens here. Use your CI/CD secret injection or a secrets manager.
+# - If you use CI to inject secrets, you can keep the values here as empty strings or placeholders.
+# - Choose `architectures` based on your build artifacts and Lambda compatibility.
+#
+# Minimal example to use (copy these to terraform.tfvars and fill in secrets):
+# aws_region = "ap-northeast-1"
+# function_name = "notifyKindleDailyDeals"
+# line_channel_access_token = ""
+# line_target_id = ""
+#
+# After filling values, run `terraform init` and `terraform apply` (or use your CI process).

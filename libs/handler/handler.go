@@ -28,10 +28,13 @@ func Handler(bot *messaging_api.MessagingApiAPI, targetId string) func(events.La
 		}
 
 		notifier := notifier.New(bot)
-		if err := notifier.Notify(targetId, messages); err != nil {
-			return events.APIGatewayProxyResponse{
-				StatusCode: http.StatusInternalServerError,
-			}, err
+		for i := 0; i < len(messages); i += 5 {
+			// NOTE: LINE Messaging API allows maximum 5 messages per request
+			if err := notifier.Notify(targetId, messages[i:i+5]); err != nil {
+				return events.APIGatewayProxyResponse{
+					StatusCode: http.StatusInternalServerError,
+				}, err
+			}
 		}
 
 		return events.APIGatewayProxyResponse{
