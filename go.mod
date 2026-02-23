@@ -4,7 +4,7 @@ go 1.25.5
 
 require (
 	github.com/aws/aws-lambda-go v1.51.1
-	github.com/caarlos0/env/v11 v11.3.1
+	github.com/caarlos0/env/v11 v11.4.0
 	github.com/gocolly/colly/v2 v2.3.0
 	github.com/google/uuid v1.6.0
 	github.com/line/line-bot-sdk-go/v8 v8.18.0
